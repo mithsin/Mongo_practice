@@ -10,11 +10,56 @@ describe('Updating records', () => {
       .then(() => done());
   })
 
-  it('instance type using set and save', () => {
-    console.log(joe);
+  function assertName(operation, done){
+    operation
+    .then(() =>  User.find({}))
+      .then((users) => {
+        assert(users.length === 1);
+        assert(users[0].name === 'Alex');
+        done();
+      });
+  }
+  // instance type using set and save using function assertName
+  it('instance type using set and save', (done) => {
     joe.set('name', 'Alex');
-    console.log(joe);
+      assertName(joe.save(), done)
+  });
+  // instance type using set and save without using function assertName
+  it('instance type using set and save', (done) => {
+    console.log(joe + ' --> update_test.js line 29');
+    joe.set('name', 'Alex');
+    console.log(joe + ' --> update_test.js line 31');
+      joe.save()
+        .then(() =>  User.find({}))
+          .then((users) => {
+            assert(users.length === 1);
+            assert(users[0].name === 'Alex');
+            done();
+          });
   });
 
+  it('A model instance can update', (done)=>{
+    assertName(joe.update({name: 'Alex'}), done);
+  });
 
+  it('A model class can update', (done)=>{
+    assertName(
+      User.update({ name: 'Joe'}, { name: 'Alex'}),
+      done
+    );
+  });
+
+  it('A model class can update one record', (done) => {
+    assertName(
+      User.findOneAndUpdate({ name: 'Joe'}, {name:'Alex'}),
+      done
+    );
+  });
+
+  it('A model class can find a record with an Id and update', (done)=>{
+    assertName(
+      User.findByIdAndUpdate(joe._id, {name:'Alex'}),
+      done
+    );
+  });
 });
