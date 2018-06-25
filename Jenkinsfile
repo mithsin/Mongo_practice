@@ -1,4 +1,5 @@
-node('node') {
+pipeline {
+    agent any
        stage('Test'){
 
          env.NODE_ENV = "test"
@@ -6,9 +7,8 @@ node('node') {
          print "Environment will be : ${env.NODE_ENV}"
 
          sh 'node -v'
-         sh 'npm prune'
          sh 'npm install'
-         sh 'npm test'
+         sh 'npm run test'
 
        }
 }
