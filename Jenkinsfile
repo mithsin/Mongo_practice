@@ -1,16 +1,14 @@
-pipeline {
-    agent any
+node('node') {
+       stage('Test'){
 
-    stages {
-        stage('Build') {
-            steps {
-                npm install
-            }
-        }
-        stage('Test') {
-            steps {
-                npm run test
-            }
-        }
-    }
+         env.NODE_ENV = "test"
+
+         print "Environment will be : ${env.NODE_ENV}"
+
+         sh 'node -v'
+         sh 'npm prune'
+         sh 'npm install'
+         sh 'npm test'
+
+       }
 }
