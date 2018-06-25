@@ -19,9 +19,19 @@ const UserSchema = new Schema({
   }]
 });
 
+// create virtual info to be test
 UserSchema.virtual('postCount').get(function(){
   return this.posts.length;
 });
+
+//middleware to remove all blog posts associate to user
+UserSchema.pre('remove', function(next){
+    const BlogPost = mongoose.model('blogPost');
+    //example this === Joe
+      // $in = go through all the _id, if _id is "in", delete the blog posts
+    BlogPost.remove({ _id: { $in: this.blogPosts }})
+      .then(() => next());
+})
 
 const User = mongoose.model('user', UserSchema);
 
