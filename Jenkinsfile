@@ -6,6 +6,7 @@ pipeline {
               bat 'node -v'
               bat 'npm install'
               bat 'npm run test'
+              bat 'exit'
             }
         }
     }
