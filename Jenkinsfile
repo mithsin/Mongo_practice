@@ -6,9 +6,9 @@ pipeline {
 
          print "Environment will be : ${env.NODE_ENV}"
 
-         sh 'node -v'
-         sh 'npm install'
-         sh 'npm run test'
+         bat 'node -v'
+         bat 'npm install'
+         bat 'npm run test'
 
        }
 }
